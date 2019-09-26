@@ -67,19 +67,29 @@ try:
         sys.exit(0)
     else:
         print("Connection to IBM with result code: {}".format(rc))
+        temp = 0
+        humid = 0
+        sleep = 0
+        SLEEP_1 = 1
+        SEELP_30 = 30
+        ecartMax = 0.5
         while True:
             print("Sending")
             msg={}
-            msg['temp']=si.temperature()
-            msg['hum']=si.humidity()
-            mqttMsg=ujson.dumps(msg)
+            sleep = SLEEP_30
+            if temp + ecartMax > si.temperature() || temp - ecartMax < si.temperature() && humid + ecartMax si.humidity() || humid - ecartMax < si.humidity() :
+                msg['temp'] = si.temperature()
+                msg['hum']=si.humidity()
+                mqttMsg=ujson.dumps(msg)
             #mqttMsg = '{"temp":' + str(si.temperature())
             #mqttMsg = mqttMsg + '}'
-            topic="iot-2/evt/data/fmt/json"
-            print(mqttMsg)
+                topic="iot-2/evt/data/fmt/json"
+                print(mqttMsg)
             #pycom.rgbled(0xFF0000)
-
-            client.publish(topic=topic, msg=mqttMsg)
+                temp = si.temperature()
+                humid = si.humidity()
+                sleep = SLEEP_1
+                client.publish(topic=topic, msg=mqttMsg)
             time.sleep(30)
 except Exception as e:
     print(e.args)

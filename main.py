@@ -77,7 +77,7 @@ try:
             print("Sending")
             msg={}
             sleep = SLEEP_30
-            if temp + ecartMax > si.temperature() || temp - ecartMax < si.temperature() && humid + ecartMax si.humidity() || humid - ecartMax < si.humidity() :
+            if temp + ecartMax > si.temperature() or temp - ecartMax < si.temperature() and humid + ecartMax si.humidity() or humid - ecartMax < si.humidity() :
                 msg['temp'] = si.temperature()
                 msg['hum']=si.humidity()
                 mqttMsg=ujson.dumps(msg)

@@ -75,10 +75,10 @@ try:
         ecartMax = 0.5
         while True:
             pycom.heartbeat(False)
-            if si.temperature()<20:
+            if si.temperature()<20 or si.temperature()>35:
                 pycom.rgbled(0xFF0000)  # Red
-            elif si.temperature()>34:
-                pycom.rgbled(0xFF0000)  # Red
+            elif si.humidity() < 30 or si.humidity() > 50:
+                pycom.rgbled(0xFF0000) # Red
             else:
                 pycom.rgbled(0x00FF00)  # Green
 

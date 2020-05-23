@@ -71,26 +71,37 @@ try:
         humid = 0
         sleep = 0
         SLEEP_1 = 1
-        SEELP_30 = 30
+        SLEEP_30 = 30
         ecartMax = 0.5
         while True:
+            pycom.heartbeat(False)
+            if si.temperature()<20 or si.temperature()>35:
+                pycom.rgbled(0xFF0000)  # Red
+            elif si.humidity() < 30 or si.humidity() > 50:
+                pycom.rgbled(0xFF0000) # Red
+            else:
+                pycom.rgbled(0x00FF00)  # Green
+
             print("Sending")
             msg={}
+
             sleep = SLEEP_30
-            if temp + ecartMax > si.temperature() or temp - ecartMax < si.temperature() and humid + ecartMax si.humidity() or humid - ecartMax < si.humidity() :
+            if temp + ecartMax > si.temperature() or temp - ecartMax < si.temperature() or humid + ecartMax > si.humidity() or humid - ecartMax < si.humidity():
                 msg['temp'] = si.temperature()
                 msg['hum']=si.humidity()
                 mqttMsg=ujson.dumps(msg)
+
             #mqttMsg = '{"temp":' + str(si.temperature())
             #mqttMsg = mqttMsg + '}'
+
                 topic="iot-2/evt/data/fmt/json"
                 print(mqttMsg)
-            #pycom.rgbled(0xFF0000)
                 temp = si.temperature()
                 humid = si.humidity()
                 sleep = SLEEP_1
                 client.publish(topic=topic, msg=mqttMsg)
-            time.sleep(30)
+
+            time.sleep(sleep)
 except Exception as e:
     print(e.args)
     print(type(e))

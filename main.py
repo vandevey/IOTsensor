@@ -96,7 +96,6 @@ try:
 
                 topic="iot-2/evt/data/fmt/json"
                 print(mqttMsg)
-
                 temp = si.temperature()
                 humid = si.humidity()
                 sleep = SLEEP_1
